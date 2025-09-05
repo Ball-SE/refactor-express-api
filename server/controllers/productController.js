@@ -7,10 +7,15 @@ const productController = {
             const {keywords: name, category} = req.query;
             // ควบคุม Input ให้ส่งเฉพาะข้อมูลที่จำเป็นให้กับ Database
             const allProducts = await productService.getAllProducts(name, category);
+            
+            // Debug: ตรวจสอบข้อมูลที่ได้จาก database
+            // console.log("Raw products from DB:", allProducts);
+            // console.log("First product _id:", allProducts[0]?._id);
 
             // ควบคุม Output ให้ส่งเฉพาะข้อมูลที่อยากให้ Client เห็น
             return res.json({ 
                 data: allProducts.map(product => ({
+                    _id: product._id.toString(), // แปลง ObjectId เป็น string
                     name: product.name,
                     image: product.image,
                     price: product.price,
@@ -27,12 +32,14 @@ const productController = {
     // ควบคุม Input และ Output ด้วย DTO 
     getProductById: async (req, res) => {
         try{
+            const { id } = req.params; // เพิ่มการดึง id จาก req.params
             // ควบคุม Input ให้ส่งเฉพาะข้อมูลที่จำเป็นให้กับ Database
             const product = await productService.getProductById(id);
             
             // ควบคุม Output ให้ส่งเฉพาะข้อมูลที่อยากให้ Client เห็น
             return res.json({ 
                 data: {
+                    _id: product._id.toString(), // แปลง ObjectId เป็น string
                     name: product.name,
                     image: product.image,
                     price: product.price,
