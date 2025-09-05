@@ -12,14 +12,21 @@ function CreateProductForm() {
   const navigate = useNavigate();
 
   const createProduct = async () => {
-    await axios.post("http://localhost:4001/products", {
-      name,
-      image: imageUrl,
-      price,
-      description,
-      category,
-    });
-    navigate("/");
+    try {
+      await axios.post("http://localhost:4001/products", {
+        name,
+        image: imageUrl,
+        price: Number(price), // แปลง string เป็น number
+        description,
+        category,
+      });
+      // เพิ่มการ refresh หน้าหลักหลังจากสร้างสินค้าเสร็จ
+      window.location.reload();
+      navigate("/");
+    } catch (error) {
+      console.error("Error creating product:", error);
+      alert("เกิดข้อผิดพลาดในการสร้างสินค้า: " + (error.response?.data?.message || error.message));
+    }
   };
 
   const handleSubmit = (event) => {
