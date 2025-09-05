@@ -20,7 +20,8 @@ const productController = {
                     image: product.image,
                     price: product.price,
                     description: product.description,
-                    category: product.category 
+                    category: product.category,
+                    created_at: product.created_at
                 }))
             });
 
@@ -44,7 +45,8 @@ const productController = {
                     image: product.image,
                     price: product.price,
                     description: product.description,
-                    category: product.category 
+                    category: product.category,
+                    created_at: product.created_at
                 } });
         } catch (error) {
             return res.status(500).json({ message: `${error}` });
